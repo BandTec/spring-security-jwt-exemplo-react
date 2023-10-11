@@ -1,45 +1,37 @@
-import { useState } from 'react'
-import { toast } from 'react-toastify'
-import sptechLogo from '/sptech_logo.png'
-import { injectStyle } from "react-toastify/dist/inject-style";
+import api from "../api";
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
-
-import './App.css'
+import sptechLogo from '../assets/images/sptech_logo.png';
+import { injectStyle } from "react-toastify/dist/inject-style";
 
 function Login() {
-  
+
   injectStyle();
-  
+
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:8080/usuarios/login', {
-      method: 'POST',
+    api.post('/login', {
+      email: username,
+      senha: password
+    }, {
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email: username, senha: password })
+      }
     })
       .then(response => {
-        if (response.status !== 200) {
-          throw new Error('Usuário ou senha inválidos.');
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.token) {
-          sessionStorage.setItem('authToken', data.token);
-          
-          toast.success('Login realizado com sucesso!');
-          
-          navigate('/welcome', { state: { username: data.nome } });
+        if (response.status === 200 && response.data?.token) {
+          sessionStorage.setItem('authToken', response.data.token);
+          sessionStorage.setItem('usuario', response.data.nome);
 
+          toast.success('Login realizado com sucesso!');
+          navigate('/welcome');
         } else {
           throw new Error('Ops! Ocorreu um erro interno.');
         }
@@ -77,7 +69,7 @@ function Login() {
       </div>
       <div className="card">
         <p>
-          Execute sua API de exemplo: <code>https://github.com/BandTec/spring-security-jwt-exemplo</code>
+          Execute sua API de exemplo: <code> <a href="https://vitejs.dev" target="_blank"> https://github.com/BandTec/spring-security-jwt-exemplo </a></code>
         </p>
       </div>
     </>
