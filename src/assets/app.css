@@ -1,19 +1,19 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  max-width: 1280px;
   text-align: center;
 }
 
 .logo {
-  height: 10em;
-  padding: 1em;
+  height: 7em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -27,24 +27,17 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
 .card {
-  padding: 2em;
+  padding: 0.2em;
 }
 
 .read-the-docs {
   color: #888;
 }
 
-/* FORM */
 .login-container {
   max-width: 400px;
-  margin: 50px auto;
+  margin: 35px auto;
   background-color: #353535;
   padding: 20px 30px;
   border-radius: 5px;

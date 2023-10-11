@@ -1,14 +1,13 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function WelcomePage() {
 
     const navigate = useNavigate();
-    const location = useLocation();
-    const username = location.state?.username || 'Usuário';
-
+    const username = sessionStorage?.getItem('usuario');
 
     const handleLogout = () => {
         sessionStorage.removeItem('authToken');
+        sessionStorage.removeItem('usuario');
         navigate('/');
     };
 
