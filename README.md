@@ -6,6 +6,7 @@ Neste repositório, demonstraremos como uma aplicação React configurada com Vi
 
 - Ter o [Node.js](https://nodejs.org/) instalado.
 - Uma API que retorne um token JWT. Para fins de demonstração, estamos usando a API fornecida [aqui](https://github.com/BandTec/spring-security-jwt-exemplo).
+- Criar um arquivo `.env` na raiz do projeto contendo a url da api. exemplo caso estiver rodando a API local: `VITE_ENDERECO_API = http://localhost:8080/usuarios`
 
 ## Passos
 
@@ -38,7 +39,7 @@ Neste repositório, demonstraremos como uma aplicação React configurada com Vi
    sessionStorage.removeItem('authToken');
 
    // Redirecione para a página inicial (isto é apenas um exemplo, pode variar dependendo da sua configuração de roteamento)
-   window.location.href = '/';
+   navigate('/');
    ```
 
 ## Testando

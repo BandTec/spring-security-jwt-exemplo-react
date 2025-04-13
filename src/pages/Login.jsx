@@ -1,18 +1,15 @@
-import api from "../api";
+import { api } from "../provider/api";
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import sptechLogo from '../assets/images/sptech_logo.png';
-import { injectStyle } from "react-toastify/dist/inject-style";
+import  Toast  from '../components/Toast';
 
 function Login() {
-
-  injectStyle();
-
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [toast, setToast] = useState({ mensagem: '', tipo: 'sucesso' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,19 +27,37 @@ function Login() {
           sessionStorage.setItem('authToken', response.data.token);
           sessionStorage.setItem('usuario', response.data.nome);
 
-          toast.success('Login realizado com sucesso!');
-          navigate('/welcome');
+          setToast({
+            mensagem: 'Login realizado com sucesso!',
+            tipo: 'sucesso'
+          });
+
+          setTimeout(() => {
+            navigate('/welcome');
+          }, 1000);
         } else {
           throw new Error('Ops! Ocorreu um erro interno.');
         }
       })
       .catch(error => {
-        toast.error(error.message);
+        console.log(error.message);
+        setToast({
+          mensagem: error.message || 'Ops! Ocorreu um erro interno.',
+          tipo: 'erro'
+        });
       });
   };
 
   return (
     <>
+      {toast.mensagem && (
+        <Toast
+          mensagem={toast.mensagem}
+          tipo={toast.tipo}
+          onClose={() => setToast({ mensagem: '', tipo: 'sucesso' })}
+        />
+      )}
+
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={sptechLogo} className="logo" alt="Vite logo" />
