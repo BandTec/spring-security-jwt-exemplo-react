@@ -1,25 +1,12 @@
-import "./assets/app.css";
-import "./assets/index.css";
-import Rotas from "./routes";
-import { ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.minimal.css";
+import "./app.css";
+import "./index.css";
+import { RouterProvider } from "react-router-dom";
+import { routes } from "./routes";
 
 function App() {
   return (
     <>
-      <ToastContainer
-        limit={3}
-        draggable
-        rtl={false}
-        pauseOnHover
-        closeOnClick
-        autoClose={5000}
-        pauseOnFocusLoss
-        newestOnTop={false}
-        position="top-right"
-        hideProgressBar={false}
-      />
-      <Rotas />
+      <RouterProvider router={routes} />
     </>
   );
 }
