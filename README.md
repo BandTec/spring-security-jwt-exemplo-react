@@ -8,6 +8,13 @@ Neste repositório, demonstraremos como uma aplicação React configurada com Vi
 - Uma API que retorne um token JWT. Para fins de demonstração, estamos usando a API fornecida [aqui](https://github.com/BandTec/spring-security-jwt-exemplo).
 - Criar um arquivo `.env` na raiz do projeto contendo a url da api. exemplo caso estiver rodando a API local: `VITE_ENDERECO_API = http://localhost:8080/usuarios`
 
+### 📚 Swagger UI
+Para uma interação visual e direta com a API, acesse a interface do Swagger UI:
+
+- **Swagger UI:** `localhost:8080/swagger-ui/index.html`
+
+Através dela, você pode facilmente testar os endpoints disponíveis, compreendendo o fluxo de autenticação e autorização.
+
 ## Passos
 
 1. **Obtendo e Armazenando o Token JWT no `sessionStorage`:**
