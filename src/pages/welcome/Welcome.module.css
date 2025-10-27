@@ -1,0 +1,25 @@
+.logout-button{
+  width: 50%;
+  max-width: 320px;
+  padding: 10px 15px;
+  background-color: #ff0960 !important;
+  font-weight: 800;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.users-container{
+  margin-top: 30px;
+}
+
+.users-container ul{
+  list-style: none;
+}
+
+.users-container ul li{
+  margin-bottom: 10px;
+}
