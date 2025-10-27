@@ -28,27 +28,27 @@ export function WelcomePage() {
         sessionStorage.removeItem('usuario');
         navigate('/');
     };
- 
+
     return (
         <div>
             <div>
                 <h1>Bem-vindo, {username}</h1>
                 <p>Obrigado por entrar no sistema da São Paulo Tech School.</p>
             </div>
-            
+
 
 
             <div className={styles['users-container']}>
                 <h3>Usuários cadastrados</h3>
-                
+
                 {loading ? <p>Carregando...</p> : (
                     <>
                         <p>Total de usuários cadastrados: {users.length}</p>
-                    <ul>
-                        {users.map((user) => (
-                            <li key={user.id}>{user.nome}</li>
-                        ))}
-                    </ul>
+                        <ul>
+                            {users.map((user) => (
+                                <li key={user.id}>{user.nome}</li>
+                            ))}
+                        </ul>
                     </>
                 )}
             </div>
