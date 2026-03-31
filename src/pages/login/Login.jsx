@@ -18,24 +18,29 @@ export function Login() {
         email: username,
         senha: password
       });
-      if (response.status === 200 && response.data?.token) {
 
-        sessionStorage.setItem('authToken', response.data.token);
+      if (response.status === 200) {
+        /**
+         * O token JWT foi salvo pelo servidor como cookie HttpOnly.
+         * O JavaScript não tem acesso a ele — e esse é exatamente o ponto.
+         *
+         * Guardamos apenas o nome do usuário em sessionStorage para:
+         *   1. Exibir boas-vindas na tela seguinte
+         *   2. Permitir que o PrivateRoute verifique se há sessão ativa
+         *
+         * sessionStorage expira quando o browser (ou aba) é fechado(a).
+         */
+        sessionStorage.setItem('usuario', response.data.nome);
 
-        setAviso({
-          mensagem: 'Login realizado com sucesso!',
-          tipo: 'sucesso'
-        });
+        setAviso({ mensagem: 'Login realizado com sucesso!', tipo: 'sucesso' });
 
-        setTimeout(() => {
-          navigate('/welcome');
-        }, 1000);
-      } else {
-        throw new Error('Ops! Ocorreu um erro interno.');
+        setTimeout(() => navigate('/welcome'), 1000);
       }
     } catch (error) {
       setAviso({
-        mensagem: error.status === 401 ? "Usuário ou senha inválidos" : 'Ops! Ocorreu um erro interno.',
+        mensagem: error.response?.status === 401
+          ? "Usuário ou senha inválidos"
+          : 'Ops! Ocorreu um erro interno.',
         tipo: 'erro'
       });
     }
@@ -65,7 +70,6 @@ export function Login() {
             <h3>Acesse sua conta</h3>
           </div>
           <form onSubmit={handleSubmit}>
-
             <div className={styles['container-input']}>
               <label>Username</label>
               <input
@@ -89,12 +93,10 @@ export function Login() {
         </div>
         <div className={styles.card}>
           <p>
-            Execute sua API de exemplo: <code> <a href="https://github.com/BandTec/spring-security-jwt-exemplo" target="_blank"> https://github.com/BandTec/spring-security-jwt-exemplo </a></code>
+            Execute sua API de exemplo: <code><a href="https://github.com/BandTec/spring-security-jwt-exemplo" target="_blank">https://github.com/BandTec/spring-security-jwt-exemplo</a></code>
           </p>
         </div>
       </main>
     </>
-  )
+  );
 }
-
-
