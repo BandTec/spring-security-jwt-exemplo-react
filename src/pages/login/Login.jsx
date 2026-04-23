@@ -9,9 +9,30 @@ export function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [aviso, setAviso] = useState({ mensagem: '', tipo: 'sucesso' });
+  const [erros, setErros] = useState({});
+
+  const validar = () => {
+    const novosErros = {};
+    if (!username.trim()) {
+      novosErros.email = 'E-mail é obrigatório';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username)) {
+      novosErros.email = 'Informe um e-mail válido';
+    }
+    if (!password.trim()) {
+      novosErros.senha = 'Senha é obrigatória';
+    }
+    return novosErros;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const novosErros = validar();
+    if (Object.keys(novosErros).length > 0) {
+      setErros(novosErros);
+      return;
+    }
+    setErros({});
 
     try {
       const response = await api.post('/usuarios/login', {
@@ -20,26 +41,14 @@ export function Login() {
       });
 
       if (response.status === 200) {
-        /**
-         * O token JWT foi salvo pelo servidor como cookie HttpOnly.
-         * O JavaScript não tem acesso a ele — e esse é exatamente o ponto.
-         *
-         * Guardamos apenas o nome do usuário em sessionStorage para:
-         *   1. Exibir boas-vindas na tela seguinte
-         *   2. Permitir que o PrivateRoute verifique se há sessão ativa
-         *
-         * sessionStorage expira quando o browser (ou aba) é fechado(a).
-         */
         sessionStorage.setItem('usuario', response.data.nome);
-
         setAviso({ mensagem: 'Login realizado com sucesso!', tipo: 'sucesso' });
-
         setTimeout(() => navigate('/welcome'), 1000);
       }
     } catch (error) {
       setAviso({
         mensagem: error.response?.status === 401
-          ? "Usuário ou senha inválidos"
+          ? 'Usuário ou senha inválidos'
           : 'Ops! Ocorreu um erro interno.',
         tipo: 'erro'
       });
@@ -71,22 +80,24 @@ export function Login() {
           </div>
           <form onSubmit={handleSubmit}>
             <div className={styles['container-input']}>
-              <label>Username</label>
+              <label>E-mail</label>
               <input
                 type="text"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
+                onChange={(e) => { setUsername(e.target.value); setErros((prev) => ({ ...prev, email: '' })); }}
+                placeholder="seu@email.com"
               />
+              {erros.email && <span className={styles['campo-erro']}>{erros.email}</span>}
             </div>
             <div className={styles['container-input']}>
-              <label htmlFor="">Senha</label>
+              <label>Senha</label>
               <input
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                onChange={(e) => { setPassword(e.target.value); setErros((prev) => ({ ...prev, senha: '' })); }}
+                placeholder="Senha"
               />
+              {erros.senha && <span className={styles['campo-erro']}>{erros.senha}</span>}
             </div>
             <button type="submit" className={styles['btn-login']}>Login</button>
           </form>

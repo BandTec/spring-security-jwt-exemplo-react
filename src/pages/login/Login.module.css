@@ -108,3 +108,10 @@
 .read-the-docs {
   color: #888;
 }
+
+.campo-erro {
+  display: block;
+  color: #f87171;
+  font-size: 0.82rem;
+  margin-top: -6px;
+}
